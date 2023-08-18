@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 보통 패키지 명으로  -->
+<mapper namespace="mybatis.BoardDAO">
+	<insert id="insertNewPost">
+		INSERT INTO t_board(no, title, writer, content)
+		VALUES (seq_t_board_no.nextval, '오늘의 날씨', '홍길동', '안녕하세요')
+	</insert>
+	
+<!-- 	#{title}이라고 표기하는 것은 BoardVO.getTitle과 같은 의미  -->
+	<insert id="insertNewPost2" parameterType="mybatis.BoardVO">
+		INSERT INTO t_board(no, title, writer, content)
+		VALUES (seq_t_board_no.nextval, #{title}, #{writer}, #{content})
+	</insert>
+	
+<!-- 	어떤 값도 주지 않으니까 파라미터 타입이 필요가 없음 -->
+	<select id="selectAll" resultType="mybatis.BoardVO">
+		SELECT * 
+		FROM t_board
+		ORDER BY no DESC
+	</select>
+	
+<!-- 	엘리어스 설정 했기 때문에 mybatis.BoardVO = boardVO -->
+<!-- parameterType 입력값 -->
+	<select id="selectbyName" parameterType = "boardVO" resultType="boardVO">
+		SELECT * 
+		FROM t_board
+		WHERE writer= #{writer}
+	</select>
+	
+
+
+</mapper>
