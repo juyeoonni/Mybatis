@@ -31,7 +31,7 @@ public class Config {
 			System.out.println(sqlSession);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

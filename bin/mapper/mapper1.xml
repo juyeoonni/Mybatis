@@ -5,6 +5,16 @@
 
 <!-- namespace 보통 패키지 명으로  -->
 <mapper namespace="mybatis.BoardDAO">
+
+<resultMap type="mybatis.BoardVO" id="boardMap">
+	<result column="title" property="title"/>
+	<result column="writer" property="writer"/>
+	<result column="no" property="no"/>
+	<result column="reg_date" property="regDate"/>
+	<result column="count" property="count"/>
+	<result column="content" property="content"/>
+</resultMap>
+
 	<insert id="insertNewPost">
 		INSERT INTO t_board(no, title, writer, content)
 		VALUES (seq_t_board_no.nextval, '오늘의 날씨', '홍길동', '안녕하세요')
@@ -31,6 +41,63 @@
 		WHERE writer= #{writer}
 	</select>
 	
+<!-- 	<select id="selectbyName2" parameterType = "String" resultType="boardVO"> -->
+<!-- 		SELECT *  -->
+<!-- 		FROM t_board -->
+<!-- 		WHERE writer= #{aaa} -->
+<!-- 	</select> -->
+	
+	<select id="selectbyName2" parameterType = "String" resultMap="boardMap">
+		SELECT * 
+		FROM t_board
+		WHERE writer= #{aaa}
+	</select>
+	
+<!-- 	#{}부분에 no이 안와도 된다  -->
+	<select id="selectbyNo" parameterType="int" resultType="boardVO">
+		SELECT *
+		FROM t_board
+		WHERE no = #{no}
+	</select>
 
+	<select id="selectbyNo2" resultType="map" parameterType="int">
+		SELECT no, title, writer, content, reg_date as regDate, count
+		FROM t_board
+		WHERE no = #{no}
+	</select>
 
+	<update id="updatebyName">
+		UPDATE t_board
+		SET writer = #{newWriter}
+		WHERE writer = #{oldWriter}
+	</update>
+	
+	<delete id="deletebyNo" parameterType="int">
+		DELETE FROM t_board
+    	WHERE no = #{no}
+</delete>
+
+	<select id="selectDSQL" parameterType="boardVO" resultMap="boardMap"> 
+		SELECT * 
+		FROM t_board
+		<where>
+			<if test="writer != null">
+				writer=#{writer}
+			</if>
+			<if test="title != null">
+				and title=#{title}
+			</if>
+		</where>
+	</select>
+	
+<!-- 	230821수업시작 -->
+	<select id="selectDSQLif1" parameterType="String" resultType="boardVO">
+		select * from t_board
+		<if test="title != null"> 
+			<where>
+				title=#{title}
+			</where>	
+		</if>
+	</select>
+	
 </mapper>

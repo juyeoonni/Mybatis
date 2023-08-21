@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-
+<properties resource="db.properties"/>
 
  <typeAliases>
       <typeAlias type="mybatis.BoardVO" alias="boardVO"/>
@@ -14,10 +14,10 @@
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
-      	<property name="driver" value="oracle.jdbc.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@192.168.119.119:1521/dink18"/>
-        <property name="username" value="C##scott"/>
-        <property name="password" value="tiger"/>    
+      	<property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>    
       </dataSource>
     </environment>
   </environments>
